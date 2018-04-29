@@ -1,0 +1,60 @@
+<?php
+/**
+ * @file
+ * Adds a block that sidebarwithusers users when they log in.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function sidebarwithuser_theme($existing, $type, $theme, $path) {
+  return array(
+    'sidebarwithuser_sidebarwithuser_block' => array(
+      'variables' => array('user' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function sidebarwithuser_block_info() {
+  // This example comes from node.module.
+  $blocks['sidebarwithuser'] = array(
+    'info' => t('Sidebarwithuser'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function sidebarwithuser_block_view($delta = '') {
+  global $user;
+  $block = array();
+
+  switch ($delta) {
+    case 'sidebarwithuser':
+      // Don't show for anonymous users.
+      if ($user->uid) {
+        $block['subject'] = '';
+        $block['content'] = array(
+          '#theme' => 'sidebarwithuser_sidebarwithuser_block',
+          '#user' => $user,
+        );
+      }
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Theme the user sidebarwithuser block for a given user.
+ */
+function theme_sidebarwithuser_sidebarwithuser_block($variables) {
+  $user = $variables['user'];
+  $output = t('May the sidebar be with you !username', array('!username' => theme('username', array('account' => $user))));
+  return $output;
+}

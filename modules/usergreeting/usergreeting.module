@@ -1,0 +1,60 @@
+<?php
+/**
+ * @file
+ * Adds a block that greetings users when they log in.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function usergreeting_theme($existing, $type, $theme, $path) {
+  return array(
+    'usergreeting_greeting_block' => array(
+      'variables' => array('user' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function usergreeting_block_info() {
+  // This example comes from node.module.
+  $blocks['greeting'] = array(
+    'info' => t('User greeting'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function usergreeting_block_view($delta = '') {
+  global $user;
+  $block = array();
+
+  switch ($delta) {
+    case 'greeting':
+      // Don't show for anonymous users.
+      if ($user->uid) {
+        $block['subject'] = '';
+        $block['content'] = array(
+          '#theme' => 'usergreeting_greeting_block',
+          '#user' => $user,
+        );
+      }
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Theme the user greeting block for a given user.
+ */
+function theme_usergreeting_greeting_block($variables) {
+  $user = $variables['user'];
+  $output = t('Greetings !username', array('!username' => theme('username', array('account' => $user))));
+  return $output;
+}

@@ -1,0 +1,95 @@
+<?php
+/**
+*@file
+*mypage.module
+*/
+/**
+ * Implements hook_help().
+ */
+function mypage_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#mypage':{
+      $ret_val = '<h3>' . t('About') . '</h3>';
+      $ret_val = '<p>' . t('The mypage module makes it easy to manage a database of mypage.') . '</p>';
+      return $ret_val;
+      break;
+    }
+  }
+}
+
+/**
+*Implements hook_permission().
+*/
+function mypage_permission() {
+  return array(
+    'access mypage' => array(
+      'title' => t('Access my block'),
+      'description' => t('Access My block on my site.'),
+    ),
+  );
+}
+
+
+/**
+*Implements hook_menu().
+*/
+
+function mypage_menu() {
+  $items['myblock'] = array(
+    'title' => 'My page',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'mypage_myblock',
+    'access arguments' => array('access myblock'),
+  );
+  return $items;
+}
+
+/**
+*My Callback function.
+*/
+function mypage_myblock() {
+  return"<strong>Radhika Sonawane</strong><p></br>
+      Hi / Hej,</br>
+      Thanks for the opportunity to offer an opportunity to work on this assignment.</P></br>
+      <p>I am currently studying web-developer CMS in media institute, Malmö.  This is two years course in CMS and I am close to finish my first year. Within this period, I have gained experience in front end skills like HTML5, CSS3, JavaScript and on top of it agile methodology, WordPress, Drupal and PHP / PHP-oops. And now it’s time to get hands on with internship. Within this year, I have 10 weeks of internship period. It starts from 14th of august till 19th of October. </p></br>
+      <p>Previously I have done full stack developer (Cloud Edition) course at Lexicon AB Malmö. The course is designed to offer a special insight, knowledge and hands on experience for the candidates like me, who are quite new to this area and after that I have done three months practice within Light House solution AB, Malmö. Though this field is new but it not only motivates me to perform my best but also offers excitement and new challenges for me. And for me life with challenges is an opportunity to improve and excel as well as learn new things</p></br>
+      <p>Personally, I am passionate, dedicated and a hard-working individual who believes flexibility, adaptability and team work. I have good communication skills. For me work means collaboration and fun so and loves to socialize and make new friends. This makes me a good team player and easy-going person. On personal front, I am Swedish national and settled in Malmo. I am married and blessed with 2 kids. My husband is working as a General Manager at Maersk Line IT at Copenhagen and Kids are grown enough to attend school / Day care.</p></br>
+      <p>It would be a pleasure to hear from you.</p></br>
+      <p>Regards,
+</br><strong>Radhika Sonawane</<strong>
+</br>Mobile - # 076 950 4392,
+</br>sach.radhika@gmail.com
+</p></br>";
+}
+
+/**
+*Implements hook_block_info().
+*/
+
+function mypage_block_info() {
+  $blocks['mypage'] = array(
+    'info' => t('My Costom Module'),
+  );
+  return $blocks;
+}
+
+/**
+*Implements hook_block_view().
+*/
+function mypage_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'mypage':
+      $block['subject'] = t('This is my Custom Block');
+      $block['content'] = "<strong>Hello</strong> This is my awesome custom block";
+      break;
+  }
+  return $block;
+}
+
+
+
+
+
+ ?>
